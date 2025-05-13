@@ -1,9 +1,9 @@
-package dev.studiohudson.oktaSidecar.model.okta
+package dev.studiohudson.oktaSidecar.model.config
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 
 @ConfigurationProperties(prefix = "okta-client")
-data class OktaClient (
+data class OktaConfig (
     val hostname: String,
     val clientId: String,
     val kid: String,
