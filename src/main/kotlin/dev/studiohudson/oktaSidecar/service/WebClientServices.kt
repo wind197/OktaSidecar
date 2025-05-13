@@ -43,7 +43,7 @@ class WebClientServices(
     fun initializePhotosService(): RestClient {
         val base64EncodedSecret = Base64.getEncoder().encodeToString("${photosConfig.username}:${photosConfig.password}".toByteArray())
         return restClientBuilder.baseUrl(photosConfig.hostname)
-            .defaultHeader("Authorization", base64EncodedSecret)
+            .defaultHeader("Authorization", "Basic $base64EncodedSecret")
             .build()
     }
 
@@ -52,7 +52,7 @@ class WebClientServices(
     fun initializeBasicService(): RestClient {
         val base64EncodedSecret = Base64.getEncoder().encodeToString("username:password".toByteArray())
         return restClientBuilder.baseUrl("http://localhost:8082")
-            .defaultHeader("Authorization", base64EncodedSecret)
+            .defaultHeader("Authorization", "Basic $base64EncodedSecret")
             .build()
     }
 }
