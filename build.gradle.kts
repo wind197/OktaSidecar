@@ -9,7 +9,6 @@ plugins {
 group = "dev.studiohudson"
 version = "0.0.1-SNAPSHOT"
 var oktaSdkVersion = "22.0.1"
-var oktaAuthVersion = "3.0.7"
 var kotlinxSerializationJsonVersion = "1.8.1"
 
 java {
@@ -25,13 +24,14 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-quartz")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-//    implementation("com.okta.spring:okta-spring-boot-starter:${oktaAuthVersion}")
+//    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("com.okta.sdk:okta-sdk-api:${oktaSdkVersion}")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${kotlinxSerializationJsonVersion}")
+    implementation("org.springframework.boot:spring-boot-starter-security")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+    testImplementation("org.springframework.security:spring-security-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     runtimeOnly("com.okta.sdk:okta-sdk-impl:${oktaSdkVersion}")
 }
