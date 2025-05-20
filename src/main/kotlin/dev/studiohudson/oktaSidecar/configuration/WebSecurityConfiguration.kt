@@ -29,8 +29,11 @@ class WebSecurityConfiguration(
     @Order(1)
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http {
+            csrf { disable() }
             authorizeHttpRequests {
                 authorize("/test/**", authenticated)
+                authorize("/event-hooks/**", authenticated)
+                authorize("/**", permitAll)
             }
             httpBasic {
 
