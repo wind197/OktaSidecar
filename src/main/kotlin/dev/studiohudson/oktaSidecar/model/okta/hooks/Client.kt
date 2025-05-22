@@ -12,6 +12,7 @@ data class Client (
     @SerialName("device"              ) var device              : String?              = null,
     @SerialName("id"                  ) var id                  : String?              = null,
     @SerialName("ipAddress"           ) var ipAddress           : String?              = null,
-    @SerialName("geographicalContext" ) var geographicalContext : GeographicalContext? = GeographicalContext()
+    @SerialName("geographicalContext" ) var geographicalContext : GeographicalContext? = GeographicalContext(),
+    @SerialName("ipChain"             ) var ipChain             : List<IpChain>?       = listOf(IpChain())
 
 )
