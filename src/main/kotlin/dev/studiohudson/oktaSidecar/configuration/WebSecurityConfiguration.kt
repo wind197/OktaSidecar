@@ -27,7 +27,7 @@ class WebSecurityConfiguration(
 
     @Bean
     @Order(1)
-    fun filterChain(http: HttpSecurity): SecurityFilterChain {
+    fun basicFilterChain(http: HttpSecurity): SecurityFilterChain {
         http {
             headers {
                 frameOptions {
@@ -35,15 +35,31 @@ class WebSecurityConfiguration(
                 }
             }
             csrf { disable() }
+            securityMatcher("/test/**")
+            securityMatcher("/event-hooks/**")
             authorizeHttpRequests {
-                authorize("/test/**", authenticated)
-                authorize("/event-hooks/**", authenticated)
-                authorize("/**", permitAll)
+                authorize(anyRequest, authenticated)
             }
             httpBasic {}
         }
         return http.build()
     }
+
+    @Bean
+    @Order(2)
+    fun oauthFilterChain(http: HttpSecurity): SecurityFilterChain {
+        http {
+            csrf { disable() }
+            securityMatcher("/api/v1/quartz/**")
+            authorizeRequests {
+                authorize(anyRequest, authenticated)
+            }
+            oauth2ResourceServer { jwt {  } }
+        }
+
+        return http.build()
+    }
+
 
     @Bean
     fun passwordEncoder(): PasswordEncoder {

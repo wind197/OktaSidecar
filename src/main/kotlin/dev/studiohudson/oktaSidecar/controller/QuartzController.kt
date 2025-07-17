@@ -8,6 +8,7 @@ import org.quartz.*
 import org.quartz.impl.matchers.GroupMatcher
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -19,6 +20,7 @@ class QuartzController(
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
     @PostMapping("/jobs")
+    @PreAuthorize("hasAuthority('SCOPE_quartz.jobs.write')")
     fun createJob( @RequestBody jobRequest: JobRequest): String {
         logger.info("Got a request to create a job")
         logger.info("Job details : $jobRequest")
@@ -37,6 +39,7 @@ class QuartzController(
     }
 
     @GetMapping("/jobs")
+    @PreAuthorize("hasAuthority('SCOPE_quartz.jobs.read')")
     fun listJobs(): List<JobDetail> {
         logger.info("Entering List Jobs")
         val jobs: ArrayList<JobDetail> = arrayListOf()
@@ -54,6 +57,7 @@ class QuartzController(
     }
 
     @DeleteMapping("/jobs/{group}/{name}")
+    @PreAuthorize("hasAuthority('SCOPE_quartz.jobs.write')")
     fun deleteJob(
         @PathVariable group: String,
         @PathVariable name: String
@@ -68,6 +72,7 @@ class QuartzController(
     }
 
     @PostMapping("/schedule")
+    @PreAuthorize("hasAuthority('SCOPE_quartz.schedule.write')")
     fun createSchedule( @RequestBody scheduleRequest: ScheduleRequest): String {
         logger.info("Got a request to create a schedule")
 
@@ -85,6 +90,7 @@ class QuartzController(
     }
 
     @GetMapping("/schedule")
+    @PreAuthorize("hasAuthority('SCOPE_quartz.schedule.read')")
     fun listSchedules(): List<ScheduleDetail> {
         logger.info("Got a request to list schedules")
         val schedules: ArrayList<ScheduleDetail> = arrayListOf()
@@ -111,6 +117,7 @@ class QuartzController(
     }
 
     @DeleteMapping("/schedule/{group}/{name}")
+    @PreAuthorize("hasAuthority('SCOPE_quartz.schedule.write')")
     fun deleteSchedule(
         @PathVariable group: String,
         @PathVariable name: String
