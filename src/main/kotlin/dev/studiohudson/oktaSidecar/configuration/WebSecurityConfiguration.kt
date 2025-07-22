@@ -35,8 +35,8 @@ class WebSecurityConfiguration(
                 }
             }
             csrf { disable() }
-            securityMatcher("/test/**")
-            securityMatcher("/event-hooks/**")
+            securityMatcher("/api/v1/custom/**")
+            securityMatcher("/api/v1/event-hooks/**")
             authorizeHttpRequests {
                 authorize(anyRequest, authenticated)
             }
@@ -56,10 +56,21 @@ class WebSecurityConfiguration(
             }
             oauth2ResourceServer { jwt {  } }
         }
-
         return http.build()
     }
 
+    @Bean
+    @Order(3)
+    fun publicFilterChain(http: HttpSecurity): SecurityFilterChain {
+        http {
+            csrf { disable() }
+            securityMatcher("/api/v1/public/**")
+            authorizeRequests {
+                authorize(anyRequest, anonymous)
+            }
+        }
+        return http.build()
+    }
 
     @Bean
     fun passwordEncoder(): PasswordEncoder {
