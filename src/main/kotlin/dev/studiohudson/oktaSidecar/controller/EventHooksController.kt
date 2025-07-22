@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/event-hooks")
-class EventHooks (
+@RequestMapping("/api/v1/event-hooks")
+class EventHooksController (
     private val asyncEvents: AsyncEvents
 ){
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
