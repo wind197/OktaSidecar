@@ -1,7 +1,7 @@
 # Okta Sidecar
 This project serves as a skeleton for implementing Okta inline and event hooks. It also supports workflows like features such as custom API endpoints and scheduled tasks.
 
-This is an extreme early version and many features have not been implemented yet.
+This is an extreme early version and many features have not been implemented yet and current features are subject to breaking changes at any time.
 ## Event Hooks
 Okta event hooks only allow for static authentication secrets, so we will use basic auth for securing these endpoints to avoid more complicated authentication schemes.
 
