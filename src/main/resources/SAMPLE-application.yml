@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: OktaSidecar
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: always
+  datasource:
+    url: jdbc:h2:file:~/oktaSidecar.db;AUTO_SERVER=TRUE
+  sql:
+    init:
+      mode: always
+  h2:
+    console:
+      enabled: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://example.okta.com/oauth2/auseze8flxhV9ryXy5d7
+          jwk-set-uri: https://example.okta.com/oauth2/auseze8flxhV9ryXy5d7/v1/keys
+
+## Sidecar specific configuration
+okta-sidecar:
+  security:
+    users:
+      - username: photoz
+        password: password
+        role: photoz
+      - username: secret1
+        password: password
+        role: secret1
+      - username: userCreated
+        password: password
+        role: groupCreated
+
+## Configuration for external services
+# Okta Service
+okta-client:
+  hostname: example.okta.com
+  clientId: 0oaol11klyhtXjaJE5d7
+  scopes:
+    - okta.users.manage
+    - okta.groups.manage
+  kid: GW12PWK7KNOkfJ1rs1b5tAe5tyuh9jlXsIBJGNglFco
+  privateKey: pem.key
+
+# Sample Photos Service
+photos-service:
+  hostname: http://localhost:8081
+  username: user
+  password: password
