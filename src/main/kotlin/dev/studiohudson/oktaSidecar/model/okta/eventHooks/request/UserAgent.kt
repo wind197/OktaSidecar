@@ -1,4 +1,4 @@
-package dev.studiohudson.oktaSidecar.model.okta.hooks
+package dev.studiohudson.oktaSidecar.model.okta.eventHooks.request
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName

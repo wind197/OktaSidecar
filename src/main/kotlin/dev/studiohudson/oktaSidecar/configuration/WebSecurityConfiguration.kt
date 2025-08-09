@@ -65,6 +65,7 @@ class WebSecurityConfiguration(
         http {
             csrf { disable() }
             securityMatcher("/api/v1/public/**")
+            securityMatcher("/api/v1/inline-hooks/**")
             authorizeRequests {
                 authorize(anyRequest, anonymous)
             }
