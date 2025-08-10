@@ -5,13 +5,13 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Data(
-    @SerialName("context"         ) var context           : Context?        = null,
-    @SerialName("identity"        ) var identity          : Identity?       = null,
-    @SerialName("access"          ) var access            : Access?         = null,
-    @SerialName("refresh_token"   ) var refreshToken      : RefreshToken?   = null,
+    @SerialName("context"         ) var context           : Context,
+    @SerialName("identity"        ) var identity          : Identity,
+    @SerialName("access"          ) var access            : Access,
+    @SerialName("refresh_token"   ) var refreshToken      : RefreshToken,
 ) {
     @Serializable
     data class RefreshToken(
-        @SerialName("jti") var jti : String? = null
+        @SerialName("jti") var jti : String
     )
 }

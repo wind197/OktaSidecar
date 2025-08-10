@@ -1,4 +1,4 @@
-package dev.studiohudson.oktaSidecar.model.okta.inlineHooks.tokenHook.request
+package dev.studiohudson.oktaSidecar.model.okta.inlineHooks.samlAssertionHook.request
 
 import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.request.Protocol
 import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.request.Request
@@ -12,6 +12,5 @@ data class Context(
     @SerialName("request"      ) var request        : Request,
     @SerialName("protocol"     ) var protocol       : Protocol,
     @SerialName("session"      ) var session        : Session,
-    @SerialName("user"         ) var user           : User,
-    @SerialName("policy"       ) var policy         : Policy
+    @SerialName("user"         ) var user           : User
 )

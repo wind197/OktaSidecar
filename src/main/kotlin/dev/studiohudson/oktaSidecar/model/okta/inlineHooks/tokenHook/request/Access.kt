@@ -7,17 +7,17 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Access(
     @Serializable(with = KotlinxGenericMapSerializer::class)
-    @SerialName("claims"    ) var claims    : Map<String, Any>   = HashMap(),
-    @SerialName("token"     ) var token     : Token                 = Token(),
-    @SerialName("scopes"    ) var scopes    : Map<String,Scope>     = HashMap(),
+    @SerialName("claims"    ) var claims    : Map<String, Any>,
+    @SerialName("token"     ) var token     : Token,
+    @SerialName("scopes"    ) var scopes    : Map<String,Scope>,
 ) {
     @Serializable
     data class Token(
-        @SerialName("lifetime") var lifetime : Lifetime = Lifetime()
+        @SerialName("lifetime") var lifetime : Lifetime
     ) {
         @Serializable
         data class Lifetime(
-            @SerialName("expiration") var expiration : Int? = null
+            @SerialName("expiration") var expiration : Int
         )
     }
 }

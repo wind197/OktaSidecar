@@ -5,6 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Scope(
-    @SerialName("id")       var id      : String? = null,
-    @SerialName("action")   var action  : String? = null,
+    @SerialName("id")       var id      : String,
+    @SerialName("action")   var action  : String
 )

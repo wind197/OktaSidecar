@@ -5,11 +5,11 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Policy(
-    @SerialName("id"    ) var id    : String?   = null,
-    @SerialName("rule"  ) var rule  : Rule?     = null,
+    @SerialName("id"    ) var id    : String,
+    @SerialName("rule"  ) var rule  : Rule
 ) {
     @Serializable
     data class Rule(
-        @SerialName("id"    ) var id    : String?   = null,
+        @SerialName("id"    ) var id    : String
     )
 }
