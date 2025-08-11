@@ -1,10 +1,9 @@
 package dev.studiohudson.oktaSidecar.model.okta.inlineHooks.request
 
-import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.tokenHook.request.Data as TokenData
-import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.samlAssertionHook.request.Data as SamlData
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.JsonClassDiscriminator
+import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.samlAssertionHook.request.Data as SamlData
+import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.tokenHook.request.Data as TokenData
 
 @Serializable
 sealed interface InlineHookRequest {
@@ -42,19 +41,19 @@ sealed interface InlineHookRequest {
         @SerialName("data"               )          var data                 : SamlData
         ) : InlineHookRequest
 
-//    @Serializable
-//    @SerialName("com.okta.user.pre-registration")
-//    data class RegistrationHookRequest(
-//        @SerialName("eventType"          ) override var eventType            : String,
-//        @SerialName("eventTypeVersion"   ) override var eventTypeVersion     : String,
-//        @SerialName("cloudEventVersion"  ) override var cloudEventVersion    : String,
-//        @SerialName("source"             ) override var source               : String,
-//        @SerialName("eventId"            ) override var eventId              : String,
-//        @SerialName("eventTime"          ) override var eventTime            : String,
-//        @SerialName("contentType"        ) override var contentType          : String,
-//        @SerialName("requestType"        ) var requestType                   : String,
-//        @SerialName("data"               ) var data                 : Data
-//        ) : InlineHookRequest()
+    @Serializable
+    @SerialName("com.okta.user.pre-registration")
+    data class RegistrationHookRequest(
+        @SerialName("eventType"          ) override var eventType            : String,
+        @SerialName("eventTypeVersion"   ) override var eventTypeVersion     : String,
+        @SerialName("cloudEventVersion"  ) override var cloudEventVersion    : String,
+        @SerialName("source"             ) override var source               : String,
+        @SerialName("eventId"            ) override var eventId              : String,
+        @SerialName("eventTime"          ) override var eventTime            : String,
+        @SerialName("contentType"        ) override var contentType          : String,
+        @SerialName("requestType"        ) var requestType                   : String,
+        @SerialName("data"               ) var data                          : String
+        ) : InlineHookRequest
 
 
 }
