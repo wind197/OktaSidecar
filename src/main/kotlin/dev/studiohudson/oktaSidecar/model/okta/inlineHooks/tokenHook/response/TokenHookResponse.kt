@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class TokenHookResponse(
-    @SerialName("commands") var command : List<Command> = listOf()
+    @SerialName("commands") var commands : List<Command> = listOf()
 ) {
     @Serializable
     data class Command(

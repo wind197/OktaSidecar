@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SamlHookResponse(
-    @SerialName("commands") var command : List<Command>
+    @SerialName("commands") var commands : List<Command>
 ) {
     @Serializable
     data class Command(

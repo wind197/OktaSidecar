@@ -4,6 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.samlAssertionHook.request.Data as SamlData
 import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.tokenHook.request.Data as TokenData
+import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.userImportHook.request.Data as UserImportData
 
 @Serializable
 sealed interface InlineHookRequest {
@@ -39,6 +40,19 @@ sealed interface InlineHookRequest {
         @SerialName("eventTime"          ) override var eventTime            : String,
         @SerialName("contentType"        ) override var contentType          : String,
         @SerialName("data"               )          var data                 : SamlData
+        ) : InlineHookRequest
+
+    @Serializable
+    @SerialName("com.okta.import.transform")
+    data class UserImportHookRequest(
+        @SerialName("eventType"          ) override var eventType            : String,
+        @SerialName("eventTypeVersion"   ) override var eventTypeVersion     : String,
+        @SerialName("cloudEventVersion"  ) override var cloudEventVersion    : String,
+        @SerialName("source"             ) override var source               : String,
+        @SerialName("eventId"            ) override var eventId              : String,
+        @SerialName("eventTime"          ) override var eventTime            : String,
+        @SerialName("contentType"        ) override var contentType          : String,
+        @SerialName("data"               )          var data                 : UserImportData
         ) : InlineHookRequest
 
     @Serializable

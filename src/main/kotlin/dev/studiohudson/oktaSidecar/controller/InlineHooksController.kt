@@ -4,6 +4,7 @@ import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.request.InlineHookReq
 import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.samlAssertionHook.response.SamlHookResponse
 import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.samlAssertionHook.response.Value
 import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.tokenHook.response.TokenHookResponse
+import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.userImportHook.response.UserImportHookResponse
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.PostMapping
@@ -29,7 +30,7 @@ class InlineHooksController {
         tokenHookRequest.data.access.claims.forEach { logger.info("Claim ${it.key} : ${it.value}") }
 
         val response = TokenHookResponse(
-            command = listOf(
+            commands = listOf(
                 TokenHookResponse.Command(
                     type = "com.okta.identity.patch",
                     value = listOf(TokenHookResponse.Command.Value(
@@ -54,7 +55,7 @@ class InlineHooksController {
         samlHookRequest.data.assertion.claims.forEach { logger.info("Claim ${it.key} : ${it.value.attributeValues.map { it.value }}") }
 
         val response = SamlHookResponse(
-            command = listOf(
+            commands = listOf(
                 SamlHookResponse.Command(
                     type = "com.okta.assertion.patch",
                     value = listOf(
@@ -87,6 +88,32 @@ class InlineHooksController {
                                 authnContextClassRef = "replacemantValue"
                             )
                         )
+                    )
+                )
+            )
+        )
+        logger.info("Response: $response")
+        return response
+    }
+
+    @PostMapping("userImport")
+    fun userImportHook(
+        @RequestBody userImportHookRequest: InlineHookRequest.UserImportHookRequest
+    ) : UserImportHookResponse {
+        logger.info("Request: $userImportHookRequest")
+
+        logger.info("User Profile")
+        userImportHookRequest.data.user.profile.forEach { logger.info("Claim ${it.key} : ${it.value}") }
+
+        logger.info("App User Profile")
+        userImportHookRequest.data.appUser.profile.forEach { logger.info("Claim ${it.key} : ${it.value}") }
+
+        val response = UserImportHookResponse(
+            commands = listOf(
+                UserImportHookResponse.Command(
+                    type = "com.okta.action.update",
+                    value = mapOf(
+                        Pair("result", "CREATE_USER")
                     )
                 )
             )
