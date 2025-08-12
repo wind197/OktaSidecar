@@ -11,12 +11,10 @@ data class RegistrationHookResponse(
 ) {
     @Serializable
     sealed interface Command {
-//        var type: String
 
         @Serializable
         @SerialName("com.okta.user.progressive.profile.update")
         data class ProgressiveProfileCommand(
-//            @SerialName("type" ) override var type : String,
             @Serializable(with = KotlinxGenericMapSerializer::class)
             @SerialName("value")          var value : Map<String, Any>
         ) : Command
@@ -24,7 +22,6 @@ data class RegistrationHookResponse(
         @Serializable
         @SerialName("com.okta.user.profile.update")
         data class ProfileCommand(
-//            @SerialName("type" ) override var type : String,
             @Serializable(with = KotlinxGenericMapSerializer::class)
             @SerialName("value")          var value : Map<String, Any>
         ) : Command
@@ -32,7 +29,6 @@ data class RegistrationHookResponse(
         @Serializable
         @SerialName("com.action.update")
         data class RegistrationCommand(
-//            @SerialName("type" ) override var type  : String,
             @SerialName("value")          var value : Value
         ) : Command {
             @Serializable
