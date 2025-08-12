@@ -1,5 +1,6 @@
 package dev.studiohudson.oktaSidecar.controller
 
+import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.registrationHook.response.RegistrationHookResponse
 import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.request.InlineHookRequest
 import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.samlAssertionHook.response.SamlHookResponse
 import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.samlAssertionHook.response.Value
@@ -114,6 +115,43 @@ class InlineHooksController {
                     type = "com.okta.action.update",
                     value = mapOf(
                         Pair("result", "CREATE_USER")
+                    )
+                )
+            )
+        )
+        logger.info("Response: $response")
+        return response
+    }
+
+    @PostMapping("registration")
+    fun registrationHook(
+        @RequestBody registrationHookRequest: InlineHookRequest.RegistrationHookRequest
+    ) : RegistrationHookResponse {
+        logger.info("Request: $registrationHookRequest")
+
+        if (registrationHookRequest.data.userProfile != null) {
+            logger.info("User Profile")
+            registrationHookRequest.data.userProfile?.forEach { logger.info("Attribute ${it.key} : ${it.value}") }
+        }
+
+        if (registrationHookRequest.data.userProfileUpdate != null) {
+            logger.info("User Profile Update")
+            registrationHookRequest.data.userProfileUpdate?.forEach { logger.info("Attribute ${it.key} : ${it.value}") }
+        }
+
+        val response = RegistrationHookResponse(
+            commands = listOf(
+                RegistrationHookResponse.Command.ProgressiveProfileCommand(
+//                    type = "com.okta.user.progressive.profile.update",
+                    value = mapOf(
+                        Pair("email", "example@example.com"),
+                        Pair("company", "Example Inc.")
+                    )
+                ),
+                RegistrationHookResponse.Command.RegistrationCommand(
+//                    type = "com.okta.user.progressive.profile.update",
+                    value = RegistrationHookResponse.Command.RegistrationCommand.Value(
+                        registration = RegistrationHookResponse.Command.RegistrationCommand.Value.REGISTRATION.ALLOW
                     )
                 )
             )
