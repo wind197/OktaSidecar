@@ -6,12 +6,12 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class UserImportHookResponse(
-    @SerialName("commands") var commands: List<Command>
-) {
-    @Serializable
-    data class Command(
-        @SerialName("type") var type : String,
-        @Serializable(with = KotlinxGenericMapSerializer::class)
-        @SerialName("value") var value : Map<String,Any>,
-    )
-}
+    @SerialName("commands") var commands: List<UserImportCommand>
+)
+
+@Serializable
+data class UserImportCommand(
+    @SerialName("type") var type : String,
+    @Serializable(with = KotlinxGenericMapSerializer::class)
+    @SerialName("value") var value : Map<String,Any>,
+)

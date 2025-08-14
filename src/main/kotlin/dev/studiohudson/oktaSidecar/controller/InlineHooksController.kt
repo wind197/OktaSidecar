@@ -1,10 +1,23 @@
 package dev.studiohudson.oktaSidecar.controller
 
+import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.registrationHook.request.RegistrationHookRequest
+import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.registrationHook.response.RegistrationCommand
 import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.registrationHook.response.RegistrationHookResponse
-import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.request.InlineHookRequest
+import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.registrationHook.response.REGISTRATION
+import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.registrationHook.response.RegistrationValue
+import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.samlAssertionHook.request.SamlHookRequest
+import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.samlAssertionHook.response.SamlAttributeValues
+import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.samlAssertionHook.response.SamlAttributes
+import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.samlAssertionHook.response.SamlClaim
 import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.samlAssertionHook.response.SamlHookResponse
-import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.samlAssertionHook.response.Value
+import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.samlAssertionHook.response.SamlCommand
+import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.samlAssertionHook.response.SamlValue
+import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.tokenHook.request.TokenHookRequest
+import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.tokenHook.response.TokenCommand
 import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.tokenHook.response.TokenHookResponse
+import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.tokenHook.response.TokenValue
+import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.userImportHook.request.UserImportHookRequest
+import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.userImportHook.response.UserImportCommand
 import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.userImportHook.response.UserImportHookResponse
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -20,7 +33,7 @@ class InlineHooksController {
 
     @PostMapping("token")
     fun tokenHook(
-        @RequestBody tokenHookRequest: InlineHookRequest.TokenHookRequest
+        @RequestBody tokenHookRequest: TokenHookRequest
     ) : TokenHookResponse {
         logger.info("Request: $tokenHookRequest")
 
@@ -32,13 +45,15 @@ class InlineHooksController {
 
         val response = TokenHookResponse(
             commands = listOf(
-                TokenHookResponse.Command(
+                TokenCommand(
                     type = "com.okta.identity.patch",
-                    value = listOf(TokenHookResponse.Command.Value(
-                        op = "add",
-                        path = "/claims/extPatientId",
-                        value = "1234"
-                    ))
+                    value = listOf(
+                        TokenValue(
+                            op = "add",
+                            path = "/claims/extPatientId",
+                            value = "1234"
+                        )
+                    )
                 )
             )
         )
@@ -48,7 +63,7 @@ class InlineHooksController {
 
     @PostMapping("saml")
     fun samlHook(
-        @RequestBody samlHookRequest: InlineHookRequest.SamlHookRequest
+        @RequestBody samlHookRequest: SamlHookRequest
     ) : SamlHookResponse {
         logger.info("Request: $samlHookRequest")
 
@@ -57,35 +72,50 @@ class InlineHooksController {
 
         val response = SamlHookResponse(
             commands = listOf(
-                SamlHookResponse.Command(
+                SamlCommand(
                     type = "com.okta.assertion.patch",
                     value = listOf(
-                        Value(
+                        SamlValue(
                             op = "add",
                             path = "/claims/extPatientId",
-                            value = "1234"
+                            value = 1234
                         ),
-                        Value(
+                        SamlValue(
+                            op = "add",
+                            path = "/claims/extPatientId",
+                            value = 1.2
+                        ),
+                        SamlValue(
+                            op = "add",
+                            path = "/claims/extPatientId",
+                            value = true
+                        ),
+                        SamlValue(
+                            op = "add",
+                            path = "/claims/extPatientId",
+                            value = "Hello"
+                        ),
+                        SamlValue(
                             op = "app",
                             path = "/claims/val",
-                            value = Value.ClaimValue.SamlClaimValue(
-                                attributes = Value.ClaimValue.SamlClaimValue.Attributes(
+                            value = SamlClaim.SamlClaimValue(
+                                attributes = SamlAttributes(
                                     nameFormat = "unspecified"
                                 ),
                                 attributeValues = listOf(
-                                    Value.ClaimValue.SamlClaimValue.AttributeValues(
-                                        attributes = Value.ClaimValue.SamlClaimValue.AttributeValues.Attributes(
-                                            type = "xs:string"
+                                    SamlAttributeValues(
+                                        attributes = SamlAttributeValues.Attributes(
+                                            type = "xs:integer"
                                         ),
                                         value = "4321"
                                     )
                                 )
                             )
                         ),
-                        Value(
+                        SamlValue(
                             op = "replace",
                             path = "/authentication/authnContext",
-                            value = Value.ClaimValue.AuthnContextValue(
+                            value = SamlClaim.AuthnContextValue(
                                 authnContextClassRef = "replacemantValue"
                             )
                         )
@@ -99,7 +129,7 @@ class InlineHooksController {
 
     @PostMapping("userImport")
     fun userImportHook(
-        @RequestBody userImportHookRequest: InlineHookRequest.UserImportHookRequest
+        @RequestBody userImportHookRequest: UserImportHookRequest
     ) : UserImportHookResponse {
         logger.info("Request: $userImportHookRequest")
 
@@ -111,7 +141,7 @@ class InlineHooksController {
 
         val response = UserImportHookResponse(
             commands = listOf(
-                UserImportHookResponse.Command(
+                UserImportCommand(
                     type = "com.okta.action.update",
                     value = mapOf(
                         Pair("result", "CREATE_USER")
@@ -125,7 +155,7 @@ class InlineHooksController {
 
     @PostMapping("registration")
     fun registrationHook(
-        @RequestBody registrationHookRequest: InlineHookRequest.RegistrationHookRequest
+        @RequestBody registrationHookRequest: RegistrationHookRequest
     ) : RegistrationHookResponse {
         logger.info("Request: $registrationHookRequest")
 
@@ -141,17 +171,15 @@ class InlineHooksController {
 
         val response = RegistrationHookResponse(
             commands = listOf(
-                RegistrationHookResponse.Command.ProgressiveProfileCommand(
-//                    type = "com.okta.user.progressive.profile.update",
+                RegistrationCommand.ProgressiveProfileCommand(
                     value = mapOf(
                         Pair("email", "example@example.com"),
                         Pair("company", "Example Inc.")
                     )
                 ),
-                RegistrationHookResponse.Command.RegistrationCommand(
-//                    type = "com.okta.user.progressive.profile.update",
-                    value = RegistrationHookResponse.Command.RegistrationCommand.Value(
-                        registration = RegistrationHookResponse.Command.RegistrationCommand.Value.REGISTRATION.ALLOW
+                RegistrationCommand.RegistrationActionCommand(
+                    value = RegistrationValue(
+                        registration = REGISTRATION.ALLOW
                     )
                 )
             )
