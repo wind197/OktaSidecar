@@ -1,5 +1,10 @@
 package dev.studiohudson.oktaSidecar.controller
 
+import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.passwordImportHook.CREDENTIAL
+import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.passwordImportHook.request.PasswordImportHookRequest
+import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.passwordImportHook.response.PasswordCommand
+import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.passwordImportHook.response.PasswordImportHookResponse
+import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.passwordImportHook.response.PasswordValue
 import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.registrationHook.request.RegistrationHookRequest
 import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.registrationHook.response.RegistrationCommand
 import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.registrationHook.response.RegistrationHookResponse
@@ -12,6 +17,10 @@ import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.samlAssertionHook.res
 import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.samlAssertionHook.response.SamlHookResponse
 import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.samlAssertionHook.response.SamlCommand
 import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.samlAssertionHook.response.SamlValue
+import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.telephonyHook.request.TelephonyHookRequest
+import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.telephonyHook.response.TelephonyCommand
+import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.telephonyHook.response.TelephonyHookResponse
+import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.telephonyHook.response.TelephonyValue
 import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.tokenHook.request.TokenHookRequest
 import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.tokenHook.response.TokenCommand
 import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.tokenHook.response.TokenHookResponse
@@ -187,4 +196,55 @@ class InlineHooksController {
         logger.info("Response: $response")
         return response
     }
+
+    @PostMapping("passwordImport")
+    fun passwordImportHook(
+        @RequestBody passwordImportHookRequest: PasswordImportHookRequest
+    ) : PasswordImportHookResponse {
+        logger.info("Request: $passwordImportHookRequest")
+
+        logger.info("Username: ${passwordImportHookRequest.data.context.credential.username}")
+        logger.info("Password: ${passwordImportHookRequest.data.context.credential.password}")
+
+        val response = PasswordImportHookResponse(
+            commands = listOf(
+                PasswordCommand(
+                    type = "com.okta.action.update",
+                    value = PasswordValue(
+                        credential = CREDENTIAL.VERIFIED
+                    )
+                )
+            )
+        )
+
+        logger.info("Response: $response")
+        return response
+    }
+
+    @PostMapping("telephony")
+    fun telephonyHook(
+        @RequestBody telephonyHookRequest: TelephonyHookRequest
+    ) : TelephonyHookResponse {
+
+        logger.info("Request: $telephonyHookRequest")
+
+        val response = TelephonyHookResponse(
+            commands = listOf(
+                TelephonyCommand(
+                    type = "com.okta.telephony.action",
+                    value = listOf(
+                        TelephonyValue(
+                            status = "SUCCESSFUL",
+                            provider = "TWILIO",
+                            transactionId = "wsrydstgrfe",
+                            transactionMetadata = "DURATION=300ms"
+                        )
+                    )
+                )
+            )
+        )
+        logger.info("Response: $response")
+        return response
+    }
 }
+
