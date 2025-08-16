@@ -28,6 +28,7 @@ import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.tokenHook.response.To
 import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.userImportHook.request.UserImportHookRequest
 import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.userImportHook.response.UserImportCommand
 import dev.studiohudson.oktaSidecar.model.okta.inlineHooks.userImportHook.response.UserImportHookResponse
+import jakarta.annotation.security.RolesAllowed
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.PostMapping
@@ -41,6 +42,7 @@ class InlineHooksController {
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
     @PostMapping("token")
+    @RolesAllowed("inlineHook")
     fun tokenHook(
         @RequestBody tokenHookRequest: TokenHookRequest
     ) : TokenHookResponse {
@@ -71,6 +73,7 @@ class InlineHooksController {
     }
 
     @PostMapping("saml")
+    @RolesAllowed("inlineHook")
     fun samlHook(
         @RequestBody samlHookRequest: SamlHookRequest
     ) : SamlHookResponse {
@@ -137,6 +140,7 @@ class InlineHooksController {
     }
 
     @PostMapping("userImport")
+    @RolesAllowed("inlineHook")
     fun userImportHook(
         @RequestBody userImportHookRequest: UserImportHookRequest
     ) : UserImportHookResponse {
@@ -163,6 +167,7 @@ class InlineHooksController {
     }
 
     @PostMapping("registration")
+    @RolesAllowed("inlineHook")
     fun registrationHook(
         @RequestBody registrationHookRequest: RegistrationHookRequest
     ) : RegistrationHookResponse {
@@ -198,6 +203,7 @@ class InlineHooksController {
     }
 
     @PostMapping("passwordImport")
+    @RolesAllowed("inlineHook")
     fun passwordImportHook(
         @RequestBody passwordImportHookRequest: PasswordImportHookRequest
     ) : PasswordImportHookResponse {
@@ -222,6 +228,7 @@ class InlineHooksController {
     }
 
     @PostMapping("telephony")
+    @RolesAllowed("inlineHook")
     fun telephonyHook(
         @RequestBody telephonyHookRequest: TelephonyHookRequest
     ) : TelephonyHookResponse {
