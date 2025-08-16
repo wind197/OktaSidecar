@@ -1,8 +1,8 @@
 package dev.studiohudson.oktaSidecar.controller
 
 import dev.studiohudson.oktaSidecar.functions.AsyncEvents
-import dev.studiohudson.oktaSidecar.model.okta.hooks.EventHookRequest
-import dev.studiohudson.oktaSidecar.model.okta.hooks.EventHookVerificationResponse
+import dev.studiohudson.oktaSidecar.model.okta.eventHooks.request.EventHookRequest
+import dev.studiohudson.oktaSidecar.model.okta.eventHooks.response.EventHookVerificationResponse
 import jakarta.annotation.security.RolesAllowed
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
